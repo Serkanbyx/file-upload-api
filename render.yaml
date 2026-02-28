@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: file-upload-api
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: STORAGE_MODE
+        value: local
+      - key: MAX_FILE_SIZE_MB
+        value: "5"
+      - key: BASE_URL
+        sync: false

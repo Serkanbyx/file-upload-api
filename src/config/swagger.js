@@ -1,6 +1,13 @@
 const swaggerJsDoc = require("swagger-jsdoc");
 const config = require("./index");
 
+const servers =
+  config.nodeEnv === "production"
+    ? [{ url: config.baseUrl, description: "Production server" }]
+    : [
+        { url: `http://localhost:${config.port}`, description: "Development server" },
+      ];
+
 const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
@@ -13,12 +20,7 @@ const swaggerOptions = {
         name: "API Support",
       },
     },
-    servers: [
-      {
-        url: `http://localhost:${config.port}`,
-        description: "Development server",
-      },
-    ],
+    servers,
   },
   apis: ["./src/routes/*.js"],
 };
