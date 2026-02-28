@@ -17,7 +17,8 @@ const swaggerOptions = {
       description:
         "A REST API for secure file uploads with type/size validation, local and Cloudinary storage support.",
       contact: {
-        name: "API Support",
+        name: "Serkanby",
+        url: "https://serkanbayraktar.com/",
       },
     },
     servers,

@@ -1,3 +1,6 @@
+[![Created by Serkanby](https://img.shields.io/badge/Created%20by-Serkanby-blue?style=flat-square)](https://serkanbayraktar.com/)
+[![GitHub](https://img.shields.io/badge/GitHub-Serkanbyx-181717?style=flat-square&logo=github)](https://github.com/Serkanbyx)
+
 # File Upload API
 
 A secure REST API for file uploads built with **Express**, **Multer**, and **Swagger**. Supports both local disk storage and **Cloudinary** cloud storage.
@@ -118,3 +121,17 @@ curl -X POST http://localhost:3000/api/upload \
 6. Deploy!
 
 > **Note:** Render's free tier uses ephemeral storage, so uploaded files in `local` mode will be lost on redeploy. Use `cloudinary` mode for persistent storage.
+
+## Developer
+
+**Serkanby**
+
+- Website: [serkanbayraktar.com](https://serkanbayraktar.com/)
+- GitHub: [@Serkanbyx](https://github.com/Serkanbyx)
+- Email: [serkanbyx1@gmail.com](mailto:serkanbyx1@gmail.com)
+
+## Contact
+
+- [Open an Issue](https://github.com/Serkanbyx/file-upload-api/issues)
+- Email: [serkanbyx1@gmail.com](mailto:serkanbyx1@gmail.com)
+- Website: [serkanbayraktar.com](https://serkanbayraktar.com/)
