@@ -10,10 +10,24 @@ cloudinary.config({
 
 const cloudinaryStorage = new CloudinaryStorage({
   cloudinary,
-  params: {
-    folder: "file-upload-api",
-    allowed_formats: ["jpg", "jpeg", "png", "gif", "webp", "pdf"],
-    transformation: [{ quality: "auto" }],
+  params: (_req, file) => {
+    const isImage = file.mimetype.startsWith("image/");
+    return {
+      folder: "file-upload-api",
+      resource_type: isImage ? "image" : "raw",
+      allowed_formats: [
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "webp",
+        "pdf",
+        "txt",
+        "doc",
+        "docx",
+      ],
+      ...(isImage ? { transformation: [{ quality: "auto" }] } : {}),
+    };
   },
 });
 

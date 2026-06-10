@@ -7,9 +7,17 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      # Render's free tier uses ephemeral storage, so "cloudinary" is
+      # recommended in production to persist uploaded files across redeploys.
       - key: STORAGE_MODE
-        value: local
+        value: cloudinary
       - key: MAX_FILE_SIZE_MB
         value: "5"
       - key: BASE_URL
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
         sync: false

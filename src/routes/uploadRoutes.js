@@ -116,7 +116,7 @@ router.post("/upload/multiple", upload.array("files", 5), uploadMultipleFiles);
  * @swagger
  * /api/files:
  *   get:
- *     summary: List all uploaded files (local storage only)
+ *     summary: List all uploaded files (local or Cloudinary)
  *     tags: [Upload]
  *     responses:
  *       200:

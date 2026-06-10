@@ -28,10 +28,16 @@ const ensureUploadsDir = () => {
 };
 
 /**
+ * Strips any directory components from a filename to prevent path traversal.
+ */
+const sanitizeFilename = (filename) => path.basename(filename);
+
+/**
  * Deletes a file from the local uploads directory.
  */
 const deleteLocalFile = (filename) => {
-  const filePath = path.join(uploadsDir, filename);
+  const safeName = sanitizeFilename(filename);
+  const filePath = path.join(uploadsDir, safeName);
   if (fs.existsSync(filePath)) {
     fs.unlinkSync(filePath);
     return true;
@@ -52,5 +58,6 @@ module.exports = {
   ensureUploadsDir,
   deleteLocalFile,
   getLocalFileUrl,
+  sanitizeFilename,
   uploadsDir,
 };

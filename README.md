@@ -62,6 +62,8 @@ cp .env.example .env
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `PORT` | 3000 | Server port |
+| `NODE_ENV` | development | `development` or `production` (controls Swagger server URL) |
+| `BASE_URL` | http://localhost:3000 | Public base URL used in production (e.g. your Render URL) |
 | `STORAGE_MODE` | local | `local` or `cloudinary` |
 | `MAX_FILE_SIZE_MB` | 5 | Max upload size in MB |
 | `CLOUDINARY_CLOUD_NAME` | — | Required for cloudinary mode |
@@ -105,7 +107,7 @@ Client Request → CORS → Multer Middleware → Validation → Controller → 
 The API supports two storage backends configured via the `STORAGE_MODE` environment variable:
 
 - **Local Mode**: Files are saved to the `uploads/` directory and served statically via Express
-- **Cloudinary Mode**: Files are uploaded directly to Cloudinary cloud storage, ideal for production deployments where local storage is ephemeral
+- **Cloudinary Mode**: Files are uploaded directly to Cloudinary cloud storage, ideal for production deployments where local storage is ephemeral. Listing (`GET /api/files`) and deletion are handled via the Cloudinary Admin API
 
 ### File Validation
 
@@ -149,7 +151,7 @@ src/
 |--------|----------|-------------|
 | `POST` | `/api/upload` | Upload a single file |
 | `POST` | `/api/upload/multiple` | Upload multiple files (max 5) |
-| `GET` | `/api/files` | List all uploaded files |
+| `GET` | `/api/files` | List all uploaded files (local disk or Cloudinary) |
 | `DELETE` | `/api/files/:filename` | Delete a file by filename |
 | `GET` | `/api/health` | Health check with status info |
 

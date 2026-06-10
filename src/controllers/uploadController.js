@@ -6,6 +6,7 @@ const ApiError = require("../utils/ApiError");
 const {
   deleteLocalFile,
   getLocalFileUrl,
+  sanitizeFilename,
   uploadsDir,
 } = require("../utils/fileHelpers");
 
@@ -22,7 +23,7 @@ const uploadFile = (req, res, next) => {
 
     const fileData = {
       originalName: req.file.originalname,
-      filename: isCloud ? req.file.filename : req.file.filename,
+      filename: req.file.filename,
       mimeType: req.file.mimetype,
       size: req.file.size,
       url: isCloud ? req.file.path : getLocalFileUrl(req, req.file.filename),
@@ -70,19 +71,28 @@ const uploadMultipleFiles = (req, res, next) => {
 };
 
 /**
- * GET /api/files — List all locally stored files
+ * GET /api/files — List all uploaded files (local or Cloudinary)
  */
-const listFiles = (req, res, next) => {
+const listFiles = async (req, res, next) => {
   try {
     if (config.storageMode === "cloudinary") {
-      throw new ApiError(
-        400,
-        "File listing is only available in local storage mode."
-      );
+      const { resources } = await cloudinary.api.resources({
+        type: "upload",
+        prefix: "file-upload-api/",
+        max_results: 100,
+      });
+
+      const files = resources.map((resource) => ({
+        filename: resource.public_id,
+        url: resource.secure_url,
+        size: resource.bytes,
+      }));
+
+      return res.json({ success: true, count: files.length, data: files });
     }
 
     if (!fs.existsSync(uploadsDir)) {
-      return res.json({ success: true, data: [] });
+      return res.json({ success: true, count: 0, data: [] });
     }
 
     const files = fs.readdirSync(uploadsDir).map((filename) => ({
@@ -102,7 +112,7 @@ const listFiles = (req, res, next) => {
  */
 const deleteFile = async (req, res, next) => {
   try {
-    const { filename } = req.params;
+    const filename = sanitizeFilename(req.params.filename);
 
     if (config.storageMode === "cloudinary") {
       const publicId = `file-upload-api/${path.parse(filename).name}`;
